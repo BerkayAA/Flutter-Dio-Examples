@@ -41,15 +41,36 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
 
-    const URIToTest = 'http://me.atSchool';
+    // post isteği oluşturmak istediğimde
+    //* string url'yi parse edip bu url'den bir post isteği göndermek gerekli
+    //* post içinde göndermek istediğimiz data'nın olmasını söylemeye gerek yok heralde
+    Uri myUrl = Uri.parse('hhtps://google.com');
+    var response = await http.post(myUrl, body: {'hello world': 'hello world'});
 
-    var response2 = await http.get(Uri.parse(URIToTest));
-    var parsedJson2 = await json.decode(response2.body);
-    // and thats it ok men
+    // client oluşturarak api'ye istek atmak istersek
 
+    var client = http.Client();
+
+    try {
+      Uri url = Uri.parse('http:/google.com');
+      http.Response responseClient =
+          await http.post(url, body: {'something': 'new'});
+
+      var decodedResponse =
+          jsonDecode(utf8.decode(responseClient.bodyBytes)) as Map;
+      var uri = Uri.parse(decodedResponse['uri'] as String);
+      print(await client.get(uri));
+    } catch (e) {
+      print('something went wrong ');
+    } finally {
+      client.close();
+    }
+
+    // Bu yöntemde tek seferlik bir bağlantı açılır ve otomatik olarak kapatılır
     const String API_URL = "https://corona.lmao.ninja/v2/all";
-    var response = await http.get(Uri.parse(API_URL));
+    var response21 = await http.get(Uri.parse(API_URL));
     var parsedJson = await json.decode(response.body);
+
     // Map data = await jsonDecode(response.body);
     // print(data);
     // print(data['name']);
