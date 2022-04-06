@@ -41,21 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
 
-    // post isteği oluşturmak istediğimde
+    // tek seferlik post isteği oluşturmak istediğimde
     //* string url'yi parse edip bu url'den bir post isteği göndermek gerekli
     //* post içinde göndermek istediğimiz data'nın olmasını söylemeye gerek yok heralde
     Uri myUrl = Uri.parse('hhtps://google.com');
     var response = await http.post(myUrl, body: {'hello world': 'hello world'});
 
     // client oluşturarak api'ye istek atmak istersek
-
     var client = http.Client();
-
     try {
       Uri url = Uri.parse('http:/google.com');
       http.Response responseClient =
           await http.post(url, body: {'something': 'new'});
-
       var decodedResponse =
           jsonDecode(utf8.decode(responseClient.bodyBytes)) as Map;
       var uri = Uri.parse(decodedResponse['uri'] as String);
@@ -70,10 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
     const String API_URL = "https://corona.lmao.ninja/v2/all";
     var response21 = await http.get(Uri.parse(API_URL));
     var parsedJson = await json.decode(response.body);
-
     // Map data = await jsonDecode(response.body);
     // print(data);
     // print(data['name']);
+
     setState(() {
       apiResponseModel = APIResponseModel.fromJson(parsedJson);
       isLoading = false;
